@@ -1,0 +1,227 @@
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<title>SWS ONLINE IDE(邵帝的在线ide) - sws_oj</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<link rel="stylesheet" href="https://cdn.luogu.org/css/amazeui.min.css"/>
+<link rel="stylesheet" href="https://cdn.luogu.org/css/luogu3.css">
+<link rel="stylesheet" href="https://cdn.luogu.org/css/highlight_tomorrow.css">
+<script src="x.min.js"></script>
+<script src="https://cdn.luogu.org/js/luogu3_pre.js?ver=20170210"></script>
+<style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+
+        .am-topbar {
+            margin-bottom: 0;
+        }
+
+        .lg-ide-buttom {
+            bottom: 0;
+            height: 150px;
+            background-color: #ddd;
+            position: absolute;
+            width: 100%;
+        }
+
+        #lg-ide-main {
+            height: 100%;
+        }
+
+        #lg-ide-body {
+            bottom: 150px;
+            top: 50px;
+            position: absolute;
+            width: 100%;
+        }
+
+        .lg-ide-buttom textarea {
+
+        }
+
+        .lg-ide-pre {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+
+        }
+
+        .lg-ide-buttom-title {
+            height: 30px;
+            background-color: #ddd;
+            color: #666;
+            padding: 5px;
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        .lg-ide-buttom-title .lg-ide-buttom-tt {
+            background: #fff;
+            padding: 4px 10px 4px 10px;
+            border-top: thick #666666;
+        }
+
+        .lg-ide-buttom-pre {
+            height: 120px;
+        }
+    </style>
+</head>
+<body class="">
+<div id="lg-ide-main">
+<header class="am-topbar">
+<h1 class="am-topbar-brand">
+<a href="#">邵帝的c++ ide</a>
+</h1>
+<button class="am-topbar-btn lg-right am-btn am-btn-sm am-btn-success" name="run" style="margin-right: 10px !important;">
+<i class="am-icon-play-circle"></i>在SWS-C下运行(F9)
+</button>
+<div class="am-inline-block lg-right am-topbar-btn" style="margin-right: 10px !important;">
+<select data-am-selected="{btnStyle: 'secondary',btnSize: 'sm',btnWidth:'100'}" name="lang">
+<option value="3">SWS-C</option>
+<option value="2">G++</option>
+<option value="1">GCC</option>
+<option value="0">SWS-Pascal</option>
+</select>
+</div>
+<div class="am-collapse">
+<ul class="am-nav am-nav-pills am-topbar-nav">
+<li class="am-active"><a href="#">����</a></li>
+<li><a href="#"><span class="am-badge am-radius lg-bg-red">正在运行</a></li>
+</ul>
+<div class="am-topbar-right " style="padding: 10px">
+</div>
+</div>
+</header>
+<div id="lg-ide-body">
+<pre name="code" id="code" class="lg-ide-pre"></pre>
+</div>
+<div class="lg-ide-buttom am-g am-g-collapse">
+<div class="am-u-sm-12 lg-ide-buttom-title">
+<div class="am-g">
+<div class="am-u-sm-6">
+<span class="lg-ide-buttom-tt"><strong>输入</strong></span>
+</div>
+<div class="am-u-sm-6">
+<span class="lg-ide-buttom-tt"><strong>输出</strong>
+<span name="label">
+</span>
+</span>
+</div>
+</div>
+</div>
+<div class="am-u-sm-6 lg-ide-buttom-pre">
+<pre name="sin" id="sin" class="lg-ide-pre"></pre>
+</div>
+<div class="am-u-sm-6 lg-ide-buttom-pre">
+<pre name="sout" id="sout" class="lg-ide-pre"></pre>
+</div>
+</div>
+</div>
+<script>
+
+</script>
+<script src="https://cdn.luogu.org/js/ace/ace.js"></script>
+<script src="https://cdn.luogu.org/js/amazeui.min.js"></script>
+<script>
+    var storage = window.localStorage;
+    var editor = ace.edit("code");
+    editor.setTheme("ace/theme/clouds");
+    if (storage.getItem('lg-ide-code') != null) {
+        editor.setValue(storage.getItem('lg-ide-code'));
+    }
+    /*
+     if(storage.getItem('lg-ide-lang')!=null){
+     editor.setValue(storage.getItem('lg-ide-code'));
+     }
+     */
+    editor.session.setMode("ace/mode/c_cpp");
+    editor.setFontSize(18);
+
+    var sin = ace.edit("sin");
+    sin.setTheme("ace/theme/clouds");
+
+
+    var sout = ace.edit("sout");
+    sout.setTheme("ace/theme/clouds");
+
+
+    function to_run() {
+        var code, lang, input;
+        code = editor.getValue();
+        lang = $("[name=lang]").val();
+        input = sin.getValue();
+        //alert(code+lang+input);
+
+        storage.setItem('lg-ide-lang', lang);
+        storage.setItem('lg-ide-code', code);
+
+        $('[name=run]').addClass("am-disable")
+            .html('<i class="am-icon-spinner am-icon-pulse"></i>正在云端编译运行');
+
+        $.post("/app/ajax_ide_run",
+            {code: code, lang: lang, input: input},
+            function (data) {
+                $('[name=run]').removeClass("am-disable")
+                    .html('<i class="am-icon-play-circle"></i> ����(F9)');
+                var label = '';
+                var arr = eval('(' + data + ')');
+                if (arr['code'] == 403) {
+                    label = arr['message'];
+                }
+                else {
+                    switch (arr['more']['status']) {
+                        case "Compile Error":
+                            sout.setValue(arr['more']["compile_info"]);
+                            label = '<span class="am-badge am-badge-warning am-radius">����ʧ��</span>';
+                            break;
+                        case "Success":
+                            sout.setValue(arr['more']["output"]);
+                            label = '<span class="am-badge am-badge-success am-radius">���гɹ�</span> '
+                                + '��ʱ ' + arr['more']["time"] + 'ms �ڴ�' + arr['more']["memory"] + 'kb';
+                            break;
+                        case "Time Limit Exceeded":
+                            sout.setValue('');
+                            label = '<span class="am-badge lg-bg-bluedark am-radius">����ʱ������</span> ';
+                            break;
+                        case "Memory Limit Exceeded":
+                            sout.setValue('');
+                            label = '<span class="am-badge lg-bg-bluedark am-radius">�����ڴ�����</span> ';
+                            break;
+                        case "Output Limit Exceeded":
+                            sout.setValue('');
+                            label = '<span class="am-badge lg-bg-bluedark am-radius">������������</span> ';
+                            break;
+                        case "Runtime Error":
+                            label = '<span class="am-badge lg-bg-purple am-radius">����ʱ����</span> '
+                                + arr['more']["signal"];
+                            sout.setValue('');
+                            break;
+                        case "Security Violation":
+                            label = '<span class="am-badge lg-bg-purple am-radius">����ȫ����</span> ';
+                            sout.setValue('');
+                            break;
+                        default:
+                            label = '<span class="am-badge lg-bg-black am-radius">����δ֪����</span> ';
+                            sout.setValue('');
+                            break;
+                    }
+                }
+                $('[name=label]').html(label);
+            });
+    }
+
+    $('[name=run]').click(function () {
+        to_run();
+    });
+    $(document).keydown(function (event) {
+        if (event.keyCode == 120)
+            to_run();
+    });
+
+
+</script>
+</body>
+</html>

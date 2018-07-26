@@ -1,0 +1,77 @@
+<html>
+<head>
+  <meta charset="utf-16">
+  <title>题目1</title>
+  <style>
+   .divcss5{width:300px}
+  </style>
+</head>
+ <body>
+   <h1>第一题:输出helloworld</h1>
+   <a href="index.html">回到主页</a>
+   <p>提交<p>
+   <textarea id="sws" style="width:320px;height:290px"></textarea>
+   <p>我们记住了您曾经提交的代码。<button onclick="ee()">显示</button></p>
+   <script>
+   function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+//读取cookies
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+    if(arr=document.cookie.match(reg))
+
+        return unescape(arr[2]);
+    else
+        return null;
+}
+   function ee(){
+     document.getElementById("sws").value=getCookie("swss");
+   }
+   function e(){
+     setCookie("swss",document.getElementById("sws").value);
+     var w=document.getElementById("sws").value;
+     var w2=w.replace(" ","");
+     var w3=w2.replace(" ","");
+     for(var i=0;i<100;i++){
+       if(i%2===0){
+         w3=w2.replace(" ","");
+       }else if(i%2===1){
+         w2=w3.replace(" ","");
+       }
+     }
+     var q=w2;
+     if(!q.match("#include<iostream>")){
+       document.getElementById("f").innerHTML="<strong>无法使用命名空间</strong>";
+       return;
+     }
+     if(!q.match("usingnamespacestd;")){
+       document.getElementById("f").innerHTML="<strong>无法读取命名空间</strong>";
+       return;
+     }
+     if(!q.match("cout<<\"helloworld\";")){
+       document.getElementById("f").innerHTML="<strong>输出错误！</strong>";
+       return;
+     }
+     if(!q.match("}")){
+       document.getElementById("f").innerHTML="<strong>主函数未结束！</strong>";
+       return;
+     }
+     document.getElementById("f").innerHTML="<strong style=\"color:green\">Accept</strong>";
+     alert("Accept!");
+   }
+   </script>
+   </div>
+   <button onclick="e()">提交</button>
+   <p>状态栏：</p>
+   <div id="f">
+   </div>
+ </body>
+</html>

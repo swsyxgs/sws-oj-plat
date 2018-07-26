@@ -1,0 +1,68 @@
+<html>
+ <head>
+   <meta charset="utf-16">
+   <title>登陆—SWS onlinejudge</title>
+   <style type="text/css">
+   body {
+     background:url(p/1.jpg);
+   }
+   h1
+     {
+     color:white;
+     }
+     h3
+       {
+       color:white;
+       position:absolute;
+       }
+       h3
+         {
+         color:white;
+         position:absolute;
+         }
+   </style>
+ </head>
+ <body>
+   <h1>登陆—SWS onlinejudge</h1>
+   <hr/>
+   <a href="index.html">回到主页</a>
+   <hr/>
+   <script>
+   function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+//读取cookies
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+    if(arr=document.cookie.match(reg))
+
+        return unescape(arr[2]);
+    else
+        return null;
+}
+function lo(){
+   if(getCookie("username")===document.getElementById("v").value&&getCookie("pass")===document.getElementById("vv").value){
+     window.navigate("romerr.html");
+   }
+}
+   </script>
+   <div>
+     账号：<input id="v"/>
+   </div>
+   <div>
+     密码：<input id="vv"/>
+   </div>
+   <div>
+     <button onclick="lo()">登陆</button>
+   </div>
+   <hr/>
+   <p>一个由邵启瑞开发的oj平台</p>
+ </body>
+</html>
