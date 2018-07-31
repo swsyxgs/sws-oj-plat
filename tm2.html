@@ -1,0 +1,112 @@
+<html>
+<head>
+  <meta charset="utf-16">
+  <title>题目1</title>
+  <style>
+   .divcss5{width:300px}
+  </style>
+</head>
+ <body>
+   <h1>题目2:邵帝上班</h1>
+   <a href="tm1.html">上一题</a>
+   <a href="tm3.html">下一题</a>
+   <a href="index.html">回到主页</a>
+   <pre>
+<strong>问题描述</strong>
+
+邵帝为了给员工做好榜样，必须每天早上在6：00之前到达公司，否则要是员工先到了公司，邵帝便会感到十分伤心。
+可是邵帝偏偏又无法太早起床。于是为了保住自己的名誉，邵帝买了一个十分神奇的跑路器，每毫秒可以跑2^k千米
+（k是任意自然数）。当然，这个机器是用longint存的，所以总跑路长度不能超过maxlongint千米。邵帝府到公司
+的路可以看做一个有向图，邵帝府为点1，公司为点n，每条边长度均为一千米。邵帝想每天能尽可能多睡一些时间，
+所以让你帮他算算，邵帝最少需要几毫秒才能到公司。数据保证1到n至少有一条路径。
+<strong>输入格式</strong>
+
+第一行两个整数n，m，表示点的个数和边的个数。
+
+接下来m行每行两个数字u，v，表示一条u到v的边。
+
+<strong>输出格式<strong>
+
+第一行两个整数n，m，表示点的个数和边的个数。
+
+接下来m行每行两个数字u，v，表示一条u到v的边。
+
+<strong>输入输出样例 1</strong>
+
+run.in
+14 4
+1 1
+1 2
+2 3
+3 4
+run.out
+1
+
+
+<strong>数据说明</strong>
+
+50%的数据满足最优解路径长度<=1000；
+
+100%的数据满足n<=50，m<=10000，最优解路径长度<=maxlongint。
+
+程序可以使用的内存:0.5gb
+
+程序最长运行时间:0.8ms
+   </pre>
+   <p>提交<p>
+   <textarea id="sws" style="width:320px;height:290px"></textarea>
+   <p>我们记住了您曾经提交的代码。<button onclick="ee()">显示</button></p>
+   <script>
+   function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+//读取cookies
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+    if(arr=document.cookie.match(reg))
+
+        return unescape(arr[2]);
+    else
+        return null;
+}
+   function ee(){
+     document.getElementById("sws").value=getCookie("tm2");
+   }
+   function e(){
+     setCookie("tm2",document.getElementById("sws").value);
+     var w=document.getElementById("sws").value;
+     var w2=w.replace(" ","");
+     var w3=w2.replace(" ","");
+     for(var i=0;i<100;i++){
+       if(i%2===0){
+         w3=w2.replace(" ","");
+       }else if(i%2===1){
+         w2=w3.replace(" ","");
+       }
+     }
+     document.getElementById("f").innerHTML="<strong style=\"color:red\">很抱歉，我们遗憾的通知您，我们的服务器遇到了问题，您的代码无法提交，请检测您的网络，如果您的网络没有问题，您可以发送包含您的代码的文件的邮件到softwareshare@qq.com（按题目序号命名，如1,2,3,4）。给您带来的不便，请谅解。</strong>";
+     server.starttalk();
+     server.send(w3);
+      if(server.get("tmback")=="ac"){
+        document.getElementById("f").innerHTML="<strong style=\"color:green\">Accept</strong>";
+        alert("accept!");
+      }else if(server.get("tmback")=="w"){
+        document.getElementById("f").innerHTML=server.get("wrongvalue");
+      }else{
+      }
+   }
+   </script>
+   </div>
+   <button onclick="e()">提交</button>
+   <p>状态栏：</p>
+   <div id="f">
+   </div>
+ </body>
+</html>

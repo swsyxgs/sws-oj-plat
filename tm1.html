@@ -1,0 +1,112 @@
+<html>
+<head>
+  <meta charset="utf-16">
+  <title>题目1</title>
+  <style>
+   .divcss5{width:300px}
+  </style>
+</head>
+ <body>
+   <h1>题目1:成绩</h1>
+   <a href="tm2.html">下一题</a>
+   <a href="index.html">回到主页</a>
+   <pre>
+<strong>问题描述</strong>
+
+牛牛最近学习了 C++入门课程，这门课程的总成绩计算方法是:
+
+总成绩=作业成绩×20%+小测成绩×30%+期末考试成绩×50%
+
+牛牛想知道，这门课程自己最终能得到多少分。
+
+（邵帝友情提示:需要使用高精度运算，详见数据说明）
+
+<strong>输入格式</strong>
+
+输入文件只有 1 行，包含三个非负整数A、B、C，分别表示牛牛的作业成绩、小测成绩和期末考试成绩。相邻两个数之间用一个空格隔开，三项成绩满分都是 100 分。
+
+<strong>输出格式<strong>
+
+输出文件只有 1 行，包含一个整数，即牛牛这门课程的总成绩，满分也是 100 分。
+
+<strong>输入输出样例 1</strong>
+
+score.in
+100 100 80
+score.out
+90
+
+<strong>输入输出样例 2</strong>
+
+score.in
+60 90 80
+score.out
+79
+
+<strong>数据说明</strong>
+
+对于 10% 的数据，A=B=0。
+
+对于另外 40% 的数据，A <= B < 1000。
+
+对于 100% 的数据， 0 ≤ A、B、C ≤ 1000000000000 且 A、B、C 都是 1 的整数倍。
+
+程序可以使用的内存:1gb
+
+程序最长运行时间:1ms
+   </pre>
+   <p>提交<p>
+   <textarea id="sws" style="width:320px;height:290px"></textarea>
+   <p>我们记住了您曾经提交的代码。<button onclick="ee()">显示</button></p>
+   <script>
+   function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+//读取cookies
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+    if(arr=document.cookie.match(reg))
+
+        return unescape(arr[2]);
+    else
+        return null;
+}
+   function ee(){
+     document.getElementById("sws").value=getCookie("tm1");
+   }
+   function e(){
+     setCookie("tm1",document.getElementById("sws").value);
+     var w=document.getElementById("sws").value;
+     var w2=w.replace(" ","");
+     var w3=w2.replace(" ","");
+     for(var i=0;i<100;i++){
+       if(i%2===0){
+         w3=w2.replace(" ","");
+       }else if(i%2===1){
+         w2=w3.replace(" ","");
+       }
+     }
+     document.getElementById("f").innerHTML="<strong style=\"color:red\">很抱歉，我们遗憾的通知您，我们的服务器遇到了问题，您的代码无法提交，请检测您的网络，如果您的网络没有问题，您可以发送包含您的代码的文件的邮件到softwareshare@qq.com（按题目序号命名，如1,2,3,4）。给您带来的不便，请谅解。</strong>";
+      server.send(w3);
+      if(server.get("tmback")=="ac"){
+        document.getElementById("f").innerHTML="<strong style=\"color:green\">Accept</strong>";
+        alert("accept!");
+      }else if(server.get("tmback")=="w"){
+        document.getElementById("f").innerHTML=server.get("wrongvalue");
+      }
+   }
+   </script>
+   </div>
+   <button onclick="e()">提交</button>
+   <p>状态栏：</p>
+   <div id="f">
+   </div>
+ </body>
+</html>

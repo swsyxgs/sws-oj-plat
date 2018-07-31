@@ -60,6 +60,10 @@ function getCookie(name)
        document.getElementById("f").innerHTML="<strong>输出错误！</strong>";
        return;
      }
+     if(!q.match("intmain()")){
+       document.getElementById("f").innerHTML="<strong>无主函数</strong>";
+       return;
+     }
      if(!q.match("}")){
        document.getElementById("f").innerHTML="<strong>主函数未结束！</strong>";
        return;
